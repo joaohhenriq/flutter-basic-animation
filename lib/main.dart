@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
   
-  Animation<double> animation;
+  Animation<Color> animation;
   AnimationController animationController;
 
 
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
     
     animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 2000));
-    animation = Tween(begin: 20.0, end: 100.0).animate(animationController);
+    animation = ColorTween(begin: Colors.yellow, end: Colors.green).animate(animationController);
     animation.addListener((){
       setState(() {
         print(animation.value.toString());
@@ -44,12 +44,14 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: animation.value,
-        width: animation.value,
+        height: 100.0,
+        width: 100.0,
+        color: animation.value,
         child: FlutterLogo(
         ),
       ),
     );
   }
 }
+
 
