@@ -27,10 +27,16 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     
-    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 2000));
+    animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 4000));
     animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
 
-    animation.addStatusListener((status)=> print(status));
+    animation.addStatusListener((status){
+      if(status == AnimationStatus.completed){
+        animationController.reverse();
+      } else if (status == AnimationStatus.dismissed){
+        animationController.forward();
+      }
+    });
 
     animationController.forward();
   }
@@ -45,7 +51,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
 class AnimatedLogo extends AnimatedWidget{
-  final Tween<double> _sizeAnim = Tween<double>(begin: 30.0, end: 180.0);
+  final Tween<double> _sizeAnim = Tween<double>(begin: 0.0, end: 300.0);
 
   AnimatedLogo({Key key, Animation animation}):super(
     key:key,
@@ -55,16 +61,9 @@ class AnimatedLogo extends AnimatedWidget{
   @override
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
-    return Opacity(
-      opacity: animation.value,
-      child: Transform.rotate(
-        angle: _sizeAnim.evaluate(animation),
-        child: Container(
-          height: 100.0,
-          width: 100.0,
-          child: FlutterLogo(
-          ),
-        ),
+    return Transform.scale(
+      scale: _sizeAnim.evaluate(animation),
+      child: FlutterLogo(
       ),
     );
   }
