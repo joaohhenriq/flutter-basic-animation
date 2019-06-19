@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
     
     animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 4000));
-    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
+    animation = CurvedAnimation(parent: animationController, curve: Curves.easeInBack);
 
     animation.addStatusListener((status){
       if(status == AnimationStatus.completed){
@@ -62,7 +62,7 @@ class AnimatedLogo extends AnimatedWidget{
   Widget build(BuildContext context) {
     final Animation<double> animation = listenable;
     return Transform.scale(
-      scale: _sizeAnim.evaluate(animation),
+      scale: animation.value * 30,
       child: FlutterLogo(
       ),
     );
