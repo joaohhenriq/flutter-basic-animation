@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
   
-  Animation<Color> animation;
+  Animation<double> animation;
   AnimationController animationController;
 
 
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     super.initState();
     
     animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 2000));
-    animation = ColorTween(begin: Colors.yellow, end: Colors.green).animate(animationController);
+    animation = Tween(begin: 0.0, end: 1.0).animate(animationController);
 
     animation.addStatusListener((status)=> print(status));
 
@@ -45,6 +45,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
 class AnimatedLogo extends AnimatedWidget{
+  final Tween<double> _sizeAnim = Tween<double>(begin: 30.0, end: 180.0);
 
   AnimatedLogo({Key key, Animation animation}):super(
     key:key,
@@ -53,12 +54,14 @@ class AnimatedLogo extends AnimatedWidget{
 
   @override
   Widget build(BuildContext context) {
-    final Animation<Color> animation = listenable;
-    return Container(
-      height: 100.0,
-      width: 100.0,
-      color: animation.value,
-      child: FlutterLogo(
+    final Animation<double> animation = listenable;
+    return Opacity(
+      opacity: animation.value,
+      child: Container(
+        height: _sizeAnim.evaluate(animation),
+        width: 100.0,
+        child: FlutterLogo(
+        ),
       ),
     );
   }
