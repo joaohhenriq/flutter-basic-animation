@@ -41,6 +41,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     animationController.forward();
   }
 
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
