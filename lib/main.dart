@@ -57,10 +57,13 @@ class AnimatedLogo extends AnimatedWidget{
     final Animation<double> animation = listenable;
     return Opacity(
       opacity: animation.value,
-      child: Container(
-        height: _sizeAnim.evaluate(animation),
-        width: 100.0,
-        child: FlutterLogo(
+      child: Transform.rotate(
+        angle: _sizeAnim.evaluate(animation),
+        child: Container(
+          height: 100.0,
+          width: 100.0,
+          child: FlutterLogo(
+          ),
         ),
       ),
     );
