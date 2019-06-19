@@ -29,11 +29,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     
     animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 2000));
     animation = ColorTween(begin: Colors.yellow, end: Colors.green).animate(animationController);
-    animation.addListener((){
-      setState(() {
-        print(animation.value.toString());
-      });
-    });
 
     animation.addStatusListener((status)=> print(status));
 
@@ -43,15 +38,30 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Container(
-        height: 100.0,
-        width: 100.0,
-        color: animation.value,
-        child: FlutterLogo(
-        ),
-      ),
+      child: AnimatedLogo(animation: animation,)
     );
   }
 }
 
 
+class AnimatedLogo extends AnimatedWidget{
+
+  AnimatedLogo({Key key, Animation animation}):super(
+    key:key,
+    listenable:animation
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    final Animation<Color> animation = listenable;
+    return Container(
+      height: 100.0,
+      width: 100.0,
+      color: animation.value,
+      child: FlutterLogo(
+      ),
+    );
+  }
+
+
+}
